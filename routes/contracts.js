@@ -3,20 +3,24 @@ var router = express.Router();
 var Contracts = require('../models/contracts');
 
 router.post('/getcontracts',function(req,res,next){
-    console.log(req.body);
-
     var where = req.body.data;
     var limit = req.body.limit;
     var offset = req.body.offset;
-    console.log(where);
-    console.log(limit);
-    console.log(offset);
-    var val = Contracts.getContracts(where,limit,offset);
-    console.log(val);
-    res.json({
-        status:'ok',
-        vaue : 1
+    const tbl = new Contracts();
+    tbl.getContracts(where,limit,offset)
+    .then( rows => {
+        console.log('in resolve promise');
+        console.log(rows);
+        res.json({
+            status:'ok',
+            value : 2
+        })
     })
+    .catch(err => {
+        console.log('in reject promise')
+        console.log(err);
+    })
+
     
 });
 
