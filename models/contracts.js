@@ -5,18 +5,18 @@ var Table = require('./table');
 module.exports = class Contracts extends Table{
     constructor(){
         const structure = {
-            contract_number : '1',
+            contract_number : '',
             date_started : (new Date).getTime(),
-            date_deadline : '1234',
-            customer: '1',
+            date_deadline : '',
+            customer: '',
             сustomer_id: '',
             address : '',
             geodetic_survey : '',
             type_of_work : '',
-            contractor : '1',
-            price : '1234',
-            comment : 'adasd',
-            status : '1',
+            contractor : '',
+            price : '',
+            comment : '',
+            status : '',
         }
         const tableName = "contracts";
         super(tableName,structure);
@@ -39,16 +39,20 @@ module.exports = class Contracts extends Table{
         TODO
         additional options
         */
+        if(params && params == 'undefined') params = {};
         var whereStr = '';
         if(params.hasOwnProperty('contract_number')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `contract_number = '${params.contract_number}'` }
+        if(params.hasOwnProperty('customer')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `address LIKE '%${params.customer}%'` }
         if(params.hasOwnProperty('address')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `address LIKE '%${params.address}%'` }
         if(params.hasOwnProperty('contractor')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `contractor = '${params.contractor}'` }
         if(params.hasOwnProperty('status')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `status = '${params.status}'` }
+        if(params.hasOwnProperty('type_of_work')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `type_of_work = '${params.type_of_work}'` }
         return whereStr;
     }
 
     getContracts(params,limit,offset){
         let sql = "SELECT * FROM contracts "+ this._whereString(params) + this._limitString(limit) + this._offsetString(offset);
+        console.log(sql);
         return new Promise((resolve,reject) => {
             db.query(sql,(err,rows,field)=>{
                 if(err) return reject(err);

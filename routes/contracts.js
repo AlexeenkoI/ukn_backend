@@ -13,7 +13,7 @@ router.post('/getcontracts',function(req,res,next){
         console.log(rows);
         res.json({
             status:'ok',
-            value : 2
+            value : rows
         })
     })
     .catch(err => {

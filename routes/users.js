@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/users');
+var Authorizer = require('../models/helpers/authorizer');
 
 /* POST users listing. */
 router.post('/', function(req, res, next) {
@@ -8,10 +9,25 @@ router.post('/', function(req, res, next) {
   const user = new User();
   user.getUser(req.body.data)
   .then(rows => {
-      res.json({
-        success : true,
-        data : rows
+      if(rows.length > 0){
+      var auth = new Authorizer();
+      auth.insertOrUpdateToken(rows[0].id).then((result) => {
+        res.cookie('auth_id',result.token);
+        res.json({
+          success : true,
+          data : rows
+        })
       })
+      .catch(err => {
+        console.log('token gen failed');
+        console.log(err);
+      })
+    }else{
+      res.json({
+        success : false,
+        errMsg : 'Неверные данные или пользователь не найден.'
+      })
+    }
   })
   .catch(err => {
     console.log(err);
