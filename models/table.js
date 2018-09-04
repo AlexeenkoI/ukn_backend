@@ -71,11 +71,11 @@ module.exports = class Table{
         console.log('delete query');
         var sql = "DELETE FROM " + this._tableName + " WHERE id = " + db.escape(id);
         console.log(sql);
-        //return new Promise((resolve,reject) => {
-        //    db.query(sql,(err,rows,fields) => {
-        //        if(err) return reject(err);
-        //        return resolve(rows);
-        //    })
-        //})
+        return new Promise((resolve,reject) => {
+            db.query(sql,(err,rows,fields) => {
+                if(err) return reject(err);
+                return resolve(rows);
+            })
+        })
     }
 }
