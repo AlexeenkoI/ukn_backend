@@ -4,7 +4,7 @@ var User = require('../models/users');
 var Authorizer = require('../models/helpers/authorizer');
 
 /* POST users listing. */
-router.post('/', function(req, res, next) {
+router.post('/login', function(req, res, next) {
   //console.log(req.body.data);
   const user = new User();
   user.getUser(req.body.data)
@@ -38,6 +38,22 @@ router.post('/', function(req, res, next) {
   })
 
 });
+
+router.post('/logout',function(req,res,next){
+  const token = req.cookies.auth_id ? req.cookies.auth_id : null;
+  if(token == null){
+    res.json({
+      success : false,
+      errMsg : 'Неверные данные.'
+    })
+    return;
+  }
+  res.clearCookie('auth_id');
+  res.json({
+    success:true,
+    msg : 'Выхожу из приложения'
+  })
+})
 
 /* POST-SETUP */
 

@@ -27,22 +27,22 @@ module.exports = class Table{
         var dataArr = [];
         var structArr = [];
         for(var key in data){
-            if(data.hasOwnProperty(key) && data[key]!==''){
+            if(data.hasOwnProperty(key) && data[key]!=='' && key !=='id'){
                 //console.log(data[key])
-                dataArr.push(`${key}=${data[key]}`);
+                dataArr.push(`${key}='${data[key]}'`);
             }
         }
         var dataStr = dataArr.join(',');
-        var sql = "UPDATE " + this._tableName + " SET " + db.escape(dataStr) + " WHERE id = " + db.escape(id);
+        var sql = "UPDATE " + this._tableName + " SET " + dataStr + " WHERE id = " + db.escape(id);
 
         console.log('update query');
         console.log(sql);
-        //return new Promise((resolve,reject) => {
-        //    db.query(sql,(err,rows,fields) => {
-        //        if(err) return reject(err);
-        //        return resolve(rows);
-        //    })
-        //})
+        return new Promise((resolve,reject) => {
+            db.query(sql,(err,rows,fields) => {
+                if(err) return reject(err);
+                return resolve(rows);
+            })
+        })
     }
     insert(data){
         var dataArr = [];
@@ -51,21 +51,21 @@ module.exports = class Table{
             if(this._tableStructure.hasOwnProperty(key) && data[key]!==''){
                 structArr.push(key);
                 if(data.hasOwnProperty(key) && data[key]!==''){
-                    dataArr.push(data[key]);
+                    dataArr.push(`'${data[key]}'`);
                 }
             }
         }
         var dataStr = dataArr.join(',');
         var structStr = structArr.join(',');
-        var sql = "INSERT INTO " + this._tableName + " (" + structStr + ") " + " VALUES (" + mysql.escape(dataStr) + ")";
+        var sql = "INSERT INTO " + this._tableName + " (" + structStr + ") " + " VALUES (" + dataStr + ")";
         console.log('insert query');
         console.log(sql);
-        //return new Promise((resolve,reject) => {
-        //    db.query(sql,(err,rows,fields) => {
-        //        if(err) return reject(err);
-        //        return resolve(rows);
-        //    })
-        //})
+        return new Promise((resolve,reject) => {
+            db.query(sql,(err,rows,fields) => {
+                if(err) return reject(err);
+                return resolve(rows);
+            })
+        })
     }
     delete(id){
         console.log('delete query');

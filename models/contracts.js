@@ -41,12 +41,12 @@ module.exports = class Contracts extends Table{
         */
         if(params && params == 'undefined') params = {};
         var whereStr = '';
-        if(params.hasOwnProperty('contract_number')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `contract_number = '${params.contract_number}'` }
-        if(params.hasOwnProperty('customer')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `address LIKE '%${params.customer}%'` }
-        if(params.hasOwnProperty('address')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `address LIKE '%${params.address}%'` }
-        if(params.hasOwnProperty('contractor')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `contractor = '${params.contractor}'` }
-        if(params.hasOwnProperty('status')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `status = '${params.status}'` }
-        if(params.hasOwnProperty('type_of_work')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `type_of_work = '${params.type_of_work}'` }
+        if(params.hasOwnProperty('contract_number') && params.contract_number !==''){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `contract_number = '${params.contract_number}'` }
+        if(params.hasOwnProperty('customer') && params.customer !==''){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `address LIKE '%${params.customer}%'` }
+        if(params.hasOwnProperty('address') && params.address !==''){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `address LIKE '%${params.address}%'` }
+        if(params.hasOwnProperty('contractor') && params.contractor !==''){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `contractor = '${params.contractor}'` }
+        if(params.hasOwnProperty('status') && params.status !==''){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `status = '${params.status}'` }
+        if(params.hasOwnProperty('type_of_work') && params.type_of_work !==''){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `type_of_work = '${params.type_of_work}'` }
         return whereStr;
     }
 
