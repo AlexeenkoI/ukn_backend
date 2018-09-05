@@ -40,7 +40,7 @@ module.exports = class User extends Table{
         return whereStr;
     }
     getUser(params){
-        let sql = "SELECT users.id, users.name, users.surename, user_roles.role_name AS status_text FROM users LEFT JOIN user_roles ON users.role = user_roles.id " + 
+        let sql = "SELECT users.id, users.name, users.surename, users.role,  user_roles.role_name AS status_text FROM users LEFT JOIN user_roles ON users.role = user_roles.id " + 
                 this._whereString(params);
         return new Promise((resolve, reject)=>{
             db.query(sql,(err,rows,fields)=>{

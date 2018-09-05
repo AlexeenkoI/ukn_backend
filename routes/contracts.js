@@ -3,12 +3,20 @@ var router = express.Router();
 var Contracts = require('../models/contracts');
 var Authorizer = require('../models/helpers/authorizer');
 
+router.use(function(req,res,next){
+    //console.log('in middleware');
+    next();
+})
+
 router.post('/getcontracts',function(req,res,next){
-    var where = req.body.data;
-    var limit = req.body.data.limit;
-    var offset = req.body.data.offset;
+
+    var where = req.body.data ? req.body.data : {};
+    var limit = req.body.data ? req.body.data.limit : '';
+    var offset = req.body.data ? req.body.data.offset : '';
+
     const token = req.cookies.auth_id ? req.cookies.auth_id : '';
     const userId = req.body.userId ? req.body.userId : 0;
+
     if(token == ''){
         res.json({
             success:false,
@@ -19,16 +27,19 @@ router.post('/getcontracts',function(req,res,next){
     const auth = new Authorizer();
     auth.checkToken(userId,token)
     .then(result =>{
+        console.log(result);
         if(result.nums != 0){
             const tbl = new Contracts();
             tbl.getContracts(where,limit,offset)
             .then( rows => {
+                console.log(rows);
                 res.json({
                     success: true,
                     data : rows
                 })
             })
             .catch(err => {
+                console.log(err);
                 res.json({
                     success : false,
                     errMsg : err

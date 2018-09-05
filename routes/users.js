@@ -5,7 +5,7 @@ var Authorizer = require('../models/helpers/authorizer');
 
 /* POST users listing. */
 router.post('/login', function(req, res, next) {
-  //console.log(req.body.data);
+  console.log(req.body);
   const user = new User();
   user.getUser(req.body.data)
   .then(rows => {
