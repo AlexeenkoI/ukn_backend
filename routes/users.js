@@ -3,6 +3,37 @@ var router = express.Router();
 var User = require('../models/users');
 var Authorizer = require('../models/helpers/authorizer');
 
+router.use('/getusers',function(req,res,next){
+  const token = req.cookies.auth_id ? req.cookies.auth_id : '';
+  if(!req.body.data || token == ''){
+      res.json({
+        success: false,
+        errMsg : 'Неверный формат данных'
+      })
+      return;
+  }
+  
+  const userId = req.body.userId ? req.body.userId : 0;
+  const auth = new Authorizer();
+  auth.checkToken(userId,token)
+  .then(result => {
+      if(result.nums != 0){
+          next();
+      }else{
+          res.json({
+              success : false,
+              errMsg : 'Ошибка валидации. Пожалуйста перелогиньтесь'
+          })
+      }
+  })
+  .catch(error =>{
+      res.json({
+          success : false,
+          errMsg : error
+      })
+  })
+})
+
 /* POST users listing. */
 router.post('/login', function(req, res, next) {
   console.log(req.body);
@@ -11,7 +42,8 @@ router.post('/login', function(req, res, next) {
   .then(rows => {
       if(rows.length > 0){
       var auth = new Authorizer();
-      auth.insertOrUpdateToken(rows[0].id).then((result) => {
+      auth.insertOrUpdateToken(rows[0].id)
+      .then((result) => {
         res.cookie('auth_id',result.token);
         res.json({
           success : true,
@@ -56,5 +88,22 @@ router.post('/logout',function(req,res,next){
 })
 
 /* POST-SETUP */
+
+router.post('/getusers',function(req,res,next){
+  const user = new User();
+  user.getUsers()
+  .then(rows => {
+    res.json({
+      success : true,
+      users : rows
+    })
+  })
+  .catch(err => {
+    res.json({
+      success : false,
+      errMsg : error
+  })
+  })
+})
 
 module.exports = router;

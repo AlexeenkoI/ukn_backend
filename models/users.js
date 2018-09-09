@@ -49,4 +49,14 @@ module.exports = class User extends Table{
             })
         })
     }
+    getUsers(params){
+        let sql = "SELECT users.id, users.name FROM users";
+        return new Promise((resolve, reject) => {
+            db.query(sql, (err,rows) => {
+                if(err) return reject(err);
+                
+                return resolve(rows);
+            })
+        })
+    }
 }
