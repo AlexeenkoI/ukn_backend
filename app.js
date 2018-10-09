@@ -42,7 +42,18 @@ io.on('connection', function (socket) {
     console.log('Disconnected - '+ socket.id);
     //ToDo delete connections from poll array
   });
-  setTimeout(()=>{io.emit('testEvent',{msg:'test'})})
+  setTimeout(()=>{
+    io.emit('updateContracts',{
+    data:[
+    {
+      id:1,
+      msg:'Test 1'
+     },
+    {
+      id : 2,
+      msg : 'Test 2'
+    }],
+  }),8000})
   
 })
 

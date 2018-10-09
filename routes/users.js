@@ -5,7 +5,10 @@ var Authorizer = require('../models/helpers/authorizer');
 
 router.use('/getusers',function(req,res,next){
   const token = req.cookies.auth_id ? req.cookies.auth_id : '';
-  if(!req.body.data || token == ''){
+  console.log(req.body);
+  console.log(token);
+  if(!req.body.data && token == ''){
+    console.log('here');
       res.json({
         success: false,
         errMsg : 'Неверный формат данных'
@@ -35,9 +38,15 @@ router.use('/getusers',function(req,res,next){
 })
 
 /* POST users listing. */
-router.post('/login', function(req, res, next) {
+router.post('/login', async function(req, res, next) {
   console.log(req.body);
   const user = new User();
+  const data = await user.getUser(req.body.data);
+  console.log('await:');
+  console.log(data);
+  if(data.length == 0){
+    console.log('data is null');
+  }
   user.getUser(req.body.data)
   .then(rows => {
       if(rows.length > 0){
@@ -93,6 +102,7 @@ router.post('/getusers',function(req,res,next){
   const user = new User();
   user.getUsers()
   .then(rows => {
+    console.log(rows);
     res.json({
       success : true,
       users : rows

@@ -35,12 +35,13 @@ module.exports = class User extends Table{
 
     _whereString(params){
         let whereStr = '';
+        if(params.hasOwnProperty('id')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `id = '${params.id}'` }
         if(params.hasOwnProperty('login')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `login = '${params.login}'` }
         if(params.hasOwnProperty('password')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `password = '${crypto.createHash('md5').update(params.password).digest('hex')}'` }
         return whereStr;
     }
     getUser(params){
-        let sql = "SELECT users.id, users.name, users.surename, users.role,  user_roles.role_name AS status_text FROM users LEFT JOIN user_roles ON users.role = user_roles.id " + 
+        let sql = "SELECT users.id, users.name, users.surename, users.role, user_roles.role_name AS status_text FROM users LEFT JOIN user_roles ON users.role = user_roles.id " + 
                 this._whereString(params);
         return new Promise((resolve, reject)=>{
             db.query(sql,(err,rows,fields)=>{
@@ -50,7 +51,7 @@ module.exports = class User extends Table{
         })
     }
     getUsers(params){
-        let sql = "SELECT users.id, users.name FROM users";
+        let sql = "SELECT users.* FROM users";
         return new Promise((resolve, reject) => {
             db.query(sql, (err,rows) => {
                 if(err) return reject(err);
