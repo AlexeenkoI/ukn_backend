@@ -116,4 +116,26 @@ router.post('/getusers',function(req,res,next){
   })
 })
 
+router.post('/getuser/:id', async function(req, res, next){
+  if(!req.params.id) res.status(500).send('Get out of here');
+  const user = new User();
+  const params = {
+    id : req.params.id
+  }
+  let data = {};
+  try{
+    data = await user.getUser(params);
+  }catch(e){
+    console.log(e);
+  }
+  //.catch(err =>{
+  //  console.log(err);
+  //})
+    
+  res.json({
+    success : true,
+    data : data
+  })
+})
+
 module.exports = router;

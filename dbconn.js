@@ -7,12 +7,21 @@ var mysql = require('mysql');
 //  database : 'ukn',
 //  dateStrings: true
 //});
+//var connection = mysql.createPool({
+//  host     : 'localhost',
+//  port : '3306',
+//  user     : 'root',
+//  password : '',
+//  database : 'ukn_office',
+//  dateStrings: true
+//});
+//module.exports = connection;
 var connection = mysql.createPool({
-  host     : 'localhost',
+  host     : '31.31.196.172',
   port : '3306',
-  user     : 'root',
-  password : '',
-  database : 'ukn_office',
+  user     : 'u0579301_igor',
+  password : 'qwerty12345',
+  database : 'u0579301_ukn',
   dateStrings: true
 });
 module.exports = connection;
