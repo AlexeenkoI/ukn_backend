@@ -142,7 +142,7 @@ router.post('/getuser/:id', async function(req, res, next){
 })
 
 router.put('/updateuser/:id', async function(req, res){
-  if(!req.params.id) res.status(500).send('Get out of here');
+  //if(!req.params.id) res.status(500).send('Get out of here');
   const user = new User();
   let result;
   try{
