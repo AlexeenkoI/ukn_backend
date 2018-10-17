@@ -123,8 +123,10 @@ router.post('/getuser/:id', async function(req, res, next){
     id : req.params.id
   }
   let data = {};
+  let roles = {};
   try{
     data = await user.getUser(params);
+    roles = await user.getUsersRoles();
   }catch(e){
     console.log(e);
   }
@@ -134,8 +136,34 @@ router.post('/getuser/:id', async function(req, res, next){
     
   res.json({
     success : true,
-    data : data
+    data : data,
+    userRoles : roles
   })
+})
+
+router.put('/updateuser/:id', async function(req, res){
+  if(!req.params.id) res.status(500).send('Get out of here');
+  const user = new User();
+  let result;
+  try{
+    if(req.body.data.id !=='undefined'){
+      console.log('update');
+      result =  await user.update(req.body.data);
+    }else{
+       result = await user.insert(req.body.data);
+    }
+    res.json({
+      success : true,
+      msg : 'Данные обновлены'
+    })
+  }catch(e){
+    console.log(e);
+    res.json({
+      success : false,
+      msg : e
+    })
+  }
+
 })
 
 module.exports = router;

@@ -5,6 +5,7 @@ var Table = require('./table');
 module.exports = class User extends Table{
     constructor(){
         const structure = {
+            id : '',
             name : '',
             surename : '',
             login : '',
@@ -19,7 +20,7 @@ module.exports = class User extends Table{
         if(data.hasOwnProperty('password') && password !=''){
             data.password = this._hasher(data.password);
         }
-        super.update(data);
+        super.update(data.id,data);
     }
 
     insert(data){
@@ -41,7 +42,7 @@ module.exports = class User extends Table{
         return whereStr;
     }
     getUser(params){
-        let sql = "SELECT users.id, users.name, users.surename, users.role, user_roles.role_name AS status_text FROM users LEFT JOIN user_roles ON users.role = user_roles.id " + 
+        let sql = "SELECT users.id, users.name, users.surename, users.role, users.login, users.is_active, user_roles.role_name AS status_text FROM users LEFT JOIN user_roles ON users.role = user_roles.id " + 
                 this._whereString(params);
         return new Promise((resolve, reject)=>{
             db.query(sql,(err,rows,fields)=>{
@@ -52,6 +53,17 @@ module.exports = class User extends Table{
     }
     getUsers(params){
         let sql = "SELECT users.id, users.name, users.surename, users.login, users.role, users.is_active FROM users";
+        return new Promise((resolve, reject) => {
+            db.query(sql, (err,rows) => {
+                if(err) return reject(err);
+                
+                return resolve(rows);
+            })
+        })
+    }
+
+    getUsersRoles(){
+        let sql = "SELECT * FROM user_roles";
         return new Promise((resolve, reject) => {
             db.query(sql, (err,rows) => {
                 if(err) return reject(err);

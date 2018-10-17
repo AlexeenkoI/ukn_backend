@@ -25,13 +25,17 @@ module.exports = class Table{
 
     update(id,data){
         var dataArr = [];
+        console.log('core updater');
+        console.log(data);
         var structArr = [];
         for(var key in data){
             if(data.hasOwnProperty(key) && data[key]!=='' && key !=='id'){
-                //console.log(data[key])
+                console.log('in cicle');
+                console.log(data[key]);
                 dataArr.push(`${key}='${data[key]}'`);
             }
         }
+        console.log(dataArr);
         var dataStr = dataArr.join(',');
         var sql = "UPDATE " + this._tableName + " SET " + dataStr + " WHERE id = " + db.escape(id);
 
