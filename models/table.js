@@ -55,6 +55,12 @@ module.exports = class Table{
             if(this._tableStructure.hasOwnProperty(key) && data[key]!==''){
                 structArr.push(key);
                 if(data.hasOwnProperty(key) && data[key]!==''){
+                    if(data[key] === true){
+                        data[key] = 1;
+                    }
+                    if(data[key] === false){
+                        data[key] = 0;
+                    }
                     dataArr.push(`'${data[key]}'`);
                 }
             }

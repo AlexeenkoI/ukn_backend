@@ -42,6 +42,7 @@ router.post('/login', async function(req, res, next) {
   console.log(req.body);
   const user = new User();
   const data = await user.getUser(req.body.data);
+  const roles = await user.getUsersRoles();
   console.log('await:');
   console.log(data);
   if(data.length == 0){
@@ -56,7 +57,8 @@ router.post('/login', async function(req, res, next) {
         res.cookie('auth_id',result.token);
         res.json({
           success : true,
-          data : rows
+          data : rows,
+          userRoles : roles
         })
       })
       .catch(err => {
@@ -98,14 +100,15 @@ router.post('/logout',function(req,res,next){
 
 /* POST-SETUP */
 
-router.post('/getusers',function(req,res,next){
+router.post('/getusers', async function(req,res,next){
   const user = new User();
+  const roles = await user.getUsersRoles();
   user.getUsers()
   .then(rows => {
-    console.log(rows);
     res.json({
       success : true,
-      users : rows
+      users : rows,
+      userRoles : roles
     })
   })
   .catch(err => {
@@ -141,15 +144,17 @@ router.post('/getuser/:id', async function(req, res, next){
   })
 })
 
-router.put('/updateuser/:id', async function(req, res){
+router.put('/updateuser/:id?', async function(req, res){
   //if(!req.params.id) res.status(500).send('Get out of here');
   const user = new User();
+  console.log(req);
   let result;
   try{
-    if(req.body.data.id !=='undefined'){
+    if(req.body.data.id != 0 ){
       console.log('update');
       result =  await user.update(req.body.data);
     }else{
+      console.log('insert');
        result = await user.insert(req.body.data);
     }
     res.json({
@@ -164,6 +169,24 @@ router.put('/updateuser/:id', async function(req, res){
     })
   }
 
+})
+
+router.delete('/deleteuser/:id', async function(req, res){
+  if(!req.params.id)res.status(500).send('GET OU OF HERE');
+  const user = new User();
+  user.delete(req.body.deleteId)
+  .then(() => {
+    res.json({
+      success : true,
+      msg : 'Пользователь удален'
+    })
+  })
+  .catch( err => {
+    res.json({
+      success : false,
+      msg : err
+    })
+  })
 })
 
 module.exports = router;

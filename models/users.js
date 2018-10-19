@@ -10,21 +10,22 @@ module.exports = class User extends Table{
             surename : '',
             login : '',
             password : '',
-            role : ''
+            role : '',
+            is_active : ''
         }
         const tableName = 'users';
         super(tableName,structure);
     }
 
     update(data){
-        if(data.hasOwnProperty('password') && password !=''){
+        if(data.hasOwnProperty('password') && data.password !=''){
             data.password = this._hasher(data.password);
         }
         super.update(data.id,data);
     }
 
     insert(data){
-        if(data.hasOwnProperty('password') && password !=''){
+        if(data.hasOwnProperty('password') && data.password !=''){
             data.password = this._hasher(data.password);
         }
         super.insert(data);
