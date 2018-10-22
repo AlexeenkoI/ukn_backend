@@ -242,4 +242,38 @@ router.post('/getfilters',function(req,res,next){
     })
 })
 
+router.post('/getcontract/:id', async function(req,res){
+    if(!req.params.id) res.status(500).send('No answer for you!');
+    const data = req.body;
+    console.log(data);
+    console.log(req.params);
+    if(!data.userId){
+        res.json({
+            success : false,
+            msg : 'Wrong Data'
+        })
+        return
+    }
+    const table = new Contracts();
+    let contract = {};
+    try{
+        contract = await table.getContract(req.params);
+        res.json({
+            success : true,
+            data : contract
+        })
+    }catch(err){
+        res.json({
+            success : false,
+            msg : 'Ошибка на сервере во время получения данных.'
+        })
+    }
+
+})
+
+router.post('/updatecontract/:id', async function(req, res){
+    if(!req.params.id) res.status(500).send('No answer for you!');
+
+})
+
 module.exports = router;

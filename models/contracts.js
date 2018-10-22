@@ -41,6 +41,7 @@ module.exports = class Contracts extends Table{
         */
         if(params && params == 'undefined') params = {};
         var whereStr = '';
+        if(params.hasOwnProperty('id') && params.id !==''){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `contracts.id = '${params.id}'` }
         if(params.hasOwnProperty('contract_number') && params.contract_number !==''){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `contract_number LIKE '%${params.contract_number}%'` }
         if(params.hasOwnProperty('customer') && params.customer !==''){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `address LIKE '%${params.customer}%'` }
         if(params.hasOwnProperty('address') && params.address !==''){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `address LIKE '%${params.address}%'` }
@@ -62,6 +63,17 @@ module.exports = class Contracts extends Table{
         })
     }
 
+    getContract(params){
+        let sql = "SELECT contracts.*,users.name FROM contracts "+ "LEFT JOIN users on contracts.contractor = users.id " + this._whereString(params);
+        console.log(sql);
+        return new Promise((resolve,reject) => {
+            db.query(sql,(err,rows,field)=>{
+                if(err) return reject(err);
+                resolve(rows);
+            })
+        })
+    }
+
     getFilterData(){
         let sql = "SELECT status_types.* FROM status_types ";
         return new Promise((resolve,reject) => {
@@ -69,7 +81,7 @@ module.exports = class Contracts extends Table{
             db.query(sql,(err,rows,field)=>{
                 if(err) return reject(err);
                 result.types = rows;
-                db.query("SELECT * FROM users",(err,rows,field) =>{
+                db.query("SELECT id,name,surename,login, role FROM users",(err,rows,field) =>{
                     if(err) reject(err);
                     result.users = rows;
                     resolve(result);
