@@ -271,8 +271,38 @@ router.post('/getcontract/:id', async function(req,res){
 
 })
 
-router.post('/updatecontract/:id', async function(req, res){
+router.put('/createcontract', async function(req, res){
+
+})
+
+router.put('/updatecontract/:id', async function(req, res){
     if(!req.params.id) res.status(500).send('No answer for you!');
+    if(!req.body.data){
+        res.json({
+            success : false,
+            msg : 'Wrong data'
+        })
+    }
+    const data = req.body.data;
+    const table = new Contracts();
+    table.update(req.body.userId, data)
+    .then( () => {
+        res.json({
+            success : true,
+            msg : 'Данные обновлены'
+        })
+    })
+    .catch( err => {
+        console.log(err);
+        res.json({
+            success : false,
+            msg : 'Внутренняя ошибка сервера'
+        })
+    })
+
+})
+
+router.delete('/deletecontract/:id', async function(req,res){
 
 })
 
