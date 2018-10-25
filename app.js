@@ -12,7 +12,7 @@ const socketServer =require('socket.io')
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var contractsRouter = require('./routes/contracts');
-var customerRouter = require('./models/customers')
+var customerRouter = require('./routes/customers');
 
 var app = express();
 var server = http.createServer(app);
@@ -33,7 +33,7 @@ app.use(jsonParser.json());
 app.use('/api', indexRouter);
 app.use('/api/users/', usersRouter);
 app.use('/api/contracts', contractsRouter);
-app.use('/api/customers', customerRouter)
+app.use('/api/customers', customerRouter);
 
 //start socket connections
 const connections = [];
