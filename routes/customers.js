@@ -2,18 +2,15 @@ var router = require('express').Router();
 var Authorizer = require('../models/helpers/authorizer');
 var Customers = require('../models/customers')
 
-router.all(async function(reg, res, next){
-    try{    
+router.use(async function(reg, res, next){      
     if(!reg.cookies.auth_id){
         res.json({success: false,  errMsg : 'Неверный формат данных'})
     }
-
     const userId = reg.body.userId ? reg.body.userId : 0;
-
-    const auth = new Authorizer();
-   
-        const result = await auth.checkToken(userId, reg.cookies.auth_id)
-        if(result.nums != 0){next();}
+    const auth = new Authorizer(); 
+    try{    
+        const result = await auth.checkToken(userId, reg.cookies.auth_id)             
+        if(result[0].nums != 0){next();}
         else{res.json({success:false, msg:'Ошибка валидации. Пожалуйста перелогинтесь'})}
     }catch(e){        
         console.log(e);
