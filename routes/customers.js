@@ -41,7 +41,7 @@ router.post('/getcustomer/:id', async function(reg, res, next){
     }
 })
 
-router.post('/updatecustomer/:id', async function(reg,res,next){
+router.put('/updatecustomer/:id', async function(reg,res,next){
     if(!reg.params.id) res.status(500).send('Get out of here');
     const customer = new Customers();
     try{
@@ -59,7 +59,7 @@ router.post('/updatecustomer/:id', async function(reg,res,next){
     }
 })
 
-router.post('/deletecustomer/:id', async function(reg, res, next){
+router.delete('/deletecustomer/:id', async function(reg, res, next){
     console.log("start delete");
     if(!reg.params.id) res.status(500).send('Get out of here');
     const customer = new Customers();
