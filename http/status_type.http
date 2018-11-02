@@ -1,0 +1,70 @@
+post http://localhost:3002/api/login
+content-type: application/json
+
+{
+    "data":{
+        "login": "komkim",
+        "password": "pwd123"
+    }
+}
+
+###
+
+post http://localhost:3002/api/logout
+content-type: application/json
+
+{}
+
+###
+
+get http://localhost:3002/api/
+
+###
+
+
+post http://localhost:3002/api/statustypes/getstatustypes
+content-type: application/json
+
+{
+    "limit" : 10,
+    "userId": "3"
+}
+
+###
+post http://localhost:3002/api/statustypes/getstatustype/2
+content-type: application/json
+
+{
+    "userId": "3"    
+}
+###
+
+put http://localhost:3002/api/statustypes/updatestatustype/3
+content-type: application/json
+
+{   
+    "userId": "3",
+    "data": {
+        "firstname" : "test3"
+    }
+}
+###
+
+DELETE  http://localhost:3002/api/statustypes/deletestatustype/17
+content-type: application/json
+
+{
+    "userId": "3"
+}
+
+###
+
+put http://localhost:3002/api/statustypes/createstatustype
+content-type: application/json
+
+{
+    "userId": "3",    
+    "data" : {
+       "type" : "Work"
+    }
+}
