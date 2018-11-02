@@ -18,7 +18,11 @@ module.exports = class Customers extends Table{
 
     _limitString(limit){
         return  limit ? ` LIMIT ${limit}` : ``;
-    }     
+    }  
+    
+    _offsetString(offset){
+        return offset ? ` OFFSET ${offset}` : ``;
+    }
 
     _whereString(params){
         let whereStr = '';
@@ -32,8 +36,9 @@ module.exports = class Customers extends Table{
     }
     
  
-    getCustomers(where, limit){
-        let sql = "SELECT * FROM customer " + this._whereString(where) + this._limitString(limit);        
+    getCustomers(params){            
+        params.where = params.where ? params.where : '';
+        let sql = "SELECT * FROM customer " + this._whereString(params.where) + this._limitString(params.limit) + this._offsetString(params.offset);        
         console.log(sql);
         return new Promise((resolve, reject)=>{
             db.query(sql,(err,rows)=>{

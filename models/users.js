@@ -17,11 +17,11 @@ module.exports = class User extends Table{
         super(tableName,structure);
     }
 
-    update(data){
-        if(data.hasOwnProperty('password') && data.password !=''){
+    update(id,data){      
+        if(data.password !='' && data.hasOwnProperty('password')){
             data.password = this._hasher(data.password);
         }
-        super.update(data.id,data);
+        super.update(id,data);
     }
 
     insert(data){
@@ -36,15 +36,33 @@ module.exports = class User extends Table{
     }
 
     _whereString(params){
+        console.log(params);
         let whereStr = '';
         if(params.hasOwnProperty('id')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `users.id = '${params.id}'` }
         if(params.hasOwnProperty('login')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `users.login = '${params.login}'` }
         if(params.hasOwnProperty('password')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `users.password = '${crypto.createHash('md5').update(params.password).digest('hex')}'` }
+        if(params.hasOwnProperty('name')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `users.name = '${params.name}'` }
+        if(params.hasOwnProperty('surename')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `users.surename = '${params.surename}'` }
+        if(params.hasOwnProperty('role')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `users.role = '${params.role}'` }
+        if(params.hasOwnProperty('is_active')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `users.is_active = '${params.is_active}'` }
         return whereStr;
     }
-    getUser(params){
+
+    _limitString(limit){
+        return  limit ? ` LIMIT ${limit}` : ``;
+    }  
+
+    _offsetString(offset){
+        return offset ? ` OFFSET ${offset}` : ``;
+    }
+
+    getUser(params){      
+
+        params.where = params.where ? params.where : '';
+        console.log(params);
         let sql = "SELECT users.id, users.name, users.surename, users.role, users.login, users.is_active, user_roles.role_name AS status_text FROM users LEFT JOIN user_roles ON users.role = user_roles.id " + 
-                this._whereString(params);
+                this._whereString(params.where) + this._limitString(params.limit) + this._offsetString(params.offset);
+        console.log(sql);
         return new Promise((resolve, reject)=>{
             db.query(sql,(err,rows,fields)=>{
                 if(err) return reject(err);

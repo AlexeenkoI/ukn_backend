@@ -9,10 +9,7 @@ const http = require('http')
 
 const socketServer =require('socket.io')
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var contractsRouter = require('./routes/contracts');
-var customerRouter = require('./routes/customers');
+var routes = require('./routes/routes');
 
 var app = express();
 var server = http.createServer(app);
@@ -30,10 +27,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(jsonParser.json());
 
-app.use('/api', indexRouter);
-app.use('/api/users/', usersRouter);
-app.use('/api/contracts', contractsRouter);
-app.use('/api/customers', customerRouter);
+app.use('/api', routes);
 
 //start socket connections
 const connections = [];

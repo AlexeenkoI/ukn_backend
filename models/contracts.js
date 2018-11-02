@@ -22,6 +22,20 @@ module.exports = class Contracts extends Table{
         super(tableName,structure);
     }
 
+    insert(data){          
+        super.insert(data)
+        .then(rows =>{            
+            let sql = "CALL Contract_Update_Start(?)";
+            return new Promise((resolve,reject) => {            
+                console.log(sql);                     
+                db.query(sql, [rows.insertId], (err) => {
+                    if (err) return reject(err);                      
+                    return resolve(rows);
+                })  ;  
+            })
+        })
+    }       
+ 
     _limitString(limit){
         return  limit ? ` LIMIT ${limit}` : ``;
     }
@@ -33,6 +47,8 @@ module.exports = class Contracts extends Table{
     _order(){
         return order ? `ORDER BY ${order} ${type}` : `ORDER BY id DESC`;
     }
+
+
 
     _whereString(params){
         /*
@@ -52,6 +68,7 @@ module.exports = class Contracts extends Table{
         return whereStr;
     }
 
+    /*
     getContracts(params,limit,offset){
         let sql = "SELECT contracts.*,users.name FROM contracts "+ "LEFT JOIN users on contracts.contractor = users.id " + this._whereString(params) + this._limitString(limit) + this._offsetString(offset);
         //console.log(sql);
@@ -73,6 +90,23 @@ module.exports = class Contracts extends Table{
             })
         })
     }
+    */
+
+
+
+   getContracts(params){
+    params.where = params.where ? params.where : '';
+    //let sql = "SELECT c.id, c.contract_number, date_format(from_unixtime(c.date_started), '%d/%m/%Y') as date_started, date_format(from_unixtime(c.date_deadline), '%d/%m/%Y') as date_deadline, c.customer, c.сustomer_id, c.address, c.geodetic_survey,c.type_of_work, c.contractor, c.price, c.comment, c.status, users.name FROM u0579301_ukn.contracts as c LEFT JOIN u0579301_ukn.users on c.contractor = users.id" + this._whereString(where) + this._limitString(limit) + this._offsetString(offset);
+    let sql = 'SELECT contracts.id, contracts.contract_number, date_format(from_unixtime(contracts.date_started), \'%d/%m/%Y\') as date_started, date_format(from_unixtime(contracts.date_deadline), \'%d/%m/%Y\') as date_deadline, contracts.customer, contracts.сustomer_id, contracts.address, contracts.geodetic_survey,contracts.type_of_work, contracts.contractor, contracts.price, contracts.comment, contracts.status, users.name FROM contracts LEFT JOIN users on contracts.contractor = users.id ' + this._whereString(params.where) + this._limitString(params.limit) + this._offsetString(params.offset);
+    console.log(sql);
+    return new Promise((resolve,reject) => {
+        db.query(sql,(err,rows,field)=>{
+            if(err) return reject(err);
+            resolve(rows);
+        })
+    })
+}
+
 
     getFilterData(){
         let sql = "SELECT status_types.* FROM status_types ";

@@ -49,6 +49,7 @@ module.exports = class Table{
         })
     }
     insert(data){
+        console.log(data);
         var dataArr = [];
         var structArr = [];
         for(var key in data){
