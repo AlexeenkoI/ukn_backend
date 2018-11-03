@@ -29,7 +29,7 @@ router.delete('/users/deleteuser/:id', User.DeleteUser);
 router.use('/contracts', Authorizer.Checktoken);
 router.post('/contracts/getcontracts',Contract.GetContracts);
 router.post('/contracts/getcontract/:id', Contract.GetContract);
-router.put('/contracts/updatecontracts/:id', Contract.UpdateContracts);
+router.put('/contracts/updatecontract/:id', Contract.UpdateContracts);
 router.put('/contracts/createcontract', Contract.CreateContract);
 router.delete('/contracts/deletecontract/:id', Contract.DeleteContract);
 

@@ -4,9 +4,10 @@ var Test = require('../../models/test');
 
 module.exports.Checktoken = async function Checktoken(reg, res, next){    
     console.log('start authorizer')  ;   
-    if(!reg.cookies.auth_id){
-        res.json({success: false,  errMsg : 'Неверный формат данных'})
-    }
+    //if(!reg.cookies.auth_id){
+    //    res.json({success: false,  errMsg : 'Неверный формат данных'})
+    //}
+    console.log(reg.body);
     const userId = reg.body.userId ? reg.body.userId : 0;
     const auth = new Authorizer(); 
     try{    
@@ -20,6 +21,7 @@ module.exports.Checktoken = async function Checktoken(reg, res, next){
 }
 
 module.exports.Login = async function(req, res, next) {
+    console.log(req.body);
     const params = {where : req.body.data};
     const user = new User();
     const data = await user.getUser(params);    

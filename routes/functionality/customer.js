@@ -25,6 +25,8 @@ module.exports.GetCustomer = async function(reg, res, next){
 module.exports.UpdateCustomer = async function(reg,res,next){    
     if(!reg.params.id) res.status(500).send('Get out of here');
     const customer = new Customers();
+    console.log('update customers');
+    console.log(reg.body);
     try{
         if(reg.params.id != 0){
             const data = await customer.update(reg.params.id,reg.body.data);

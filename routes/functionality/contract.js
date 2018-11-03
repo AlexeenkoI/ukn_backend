@@ -2,8 +2,10 @@ var Contracts = require('../../models/contracts');
 
 module.exports.GetContracts = async function(req,res,next){   
     const contract = new Contracts();
+    body = {where : { ...req.body.data }}
+    console.log(body)
     try{
-        const data = await contract.getContracts(req.body);
+        const data = await contract.getContracts(body);
         res.json({success:true, data:data});
     }catch(e){
         res.json({success : false,msg : e})
