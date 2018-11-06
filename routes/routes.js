@@ -7,6 +7,9 @@ var Contract = require('./functionality/contract');
 var StatusType = require('./functionality/status_type');
 var UserRole = require('./functionality/user_role');
 var WorkType = require('./functionality/work_type');
+var multer  = require('multer')
+
+var upload = multer({ dest: 'uploads/' })
 
 router.get('/', Index.Express);
 router.post('/login',Authorizer.Login);
@@ -55,6 +58,14 @@ router.put('/worktypes/createworktype', WorkType.CreateWorkType);
 router.delete('/worktypes/deleteworktype/:id', WorkType.DeleteWorkType);
 
 router.post('/test', Authorizer.Test);
+
+
+
+router.post('/upload',upload.any(),async function(req, res, next){
+    console.log('upload handler');
+    console.log(req.files);
+    
+})
 
 
 

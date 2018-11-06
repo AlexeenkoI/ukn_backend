@@ -34,8 +34,9 @@ const connections = [];
 io.on('connection', function (socket) {
   connections.push(socket.id);
   console.log("Connected to Socket!!"+ socket.id) ;
-  socket.on('disconnect', function(){
+  socket.on('disconnect', function(socket){
     console.log('Disconnected - '+ socket.id);
+    
     //ToDo delete connections from poll array
   });
   setTimeout(()=>{
@@ -50,7 +51,7 @@ io.on('connection', function (socket) {
       msg : 'Test 2'
     }],
   }),8000})
-  
+  console.log(connections);
 })
 
 
