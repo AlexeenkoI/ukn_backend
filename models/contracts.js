@@ -55,6 +55,8 @@ module.exports = class Contracts extends Table{
         TODO
         additional options
         */
+       console.log('where str');
+       console.log(params);
         if(params && params == 'undefined') params = {};
         var whereStr = '';
         if(params.hasOwnProperty('id') && params.id !==''){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `contracts.id = '${params.id}'` }
@@ -64,6 +66,9 @@ module.exports = class Contracts extends Table{
         if(params.hasOwnProperty('contractor') && params.contractor !==''){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `contractor = '${params.contractor}'` }
         if(params.hasOwnProperty('status') && params.status !==''){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `status = '${params.status}'` }
         if(params.hasOwnProperty('type_of_work') && params.type_of_work !==''){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `type_of_work = '${params.type_of_work}'` }
+        if(params.hasOwnProperty('date_started') && params.date_started !==''){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `date_started >= '${params.date_started}'` }
+        if(params.hasOwnProperty('сustomer_id') && params.сustomer_id !==''){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `сustomer_id = '${params.сustomer_id}'` }
+        if(params.hasOwnProperty('date_deadline') && params.date_deadline !==''){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `date_deadline <= '${params.date_deadline}'` }
         if(params.hasOwnProperty('whereString') && params.whereString !==''){whereStr += (whereStr ? ' AND ' : 'WHERE ') + `CONCAT(contract_number,' ',address,' ',contractor) LIKE '%${params.whereString}%'`}
         return whereStr;
     }
@@ -96,8 +101,12 @@ module.exports = class Contracts extends Table{
 
    getContracts(params){
     params.where = params.where ? params.where : '';
+    let limit = params.where.limit ? params.where.limit : '';
+    let offset = params.where.offset ? params.where.offset : '';
+    console.log('pre  params');
+    console.log(params);
     //let sql = "SELECT c.id, c.contract_number, date_format(from_unixtime(c.date_started), '%d/%m/%Y') as date_started, date_format(from_unixtime(c.date_deadline), '%d/%m/%Y') as date_deadline, c.customer, c.сustomer_id, c.address, c.geodetic_survey,c.type_of_work, c.contractor, c.price, c.comment, c.status, users.name FROM u0579301_ukn.contracts as c LEFT JOIN u0579301_ukn.users on c.contractor = users.id" + this._whereString(where) + this._limitString(limit) + this._offsetString(offset);
-    let sql = 'SELECT contracts.id, contracts.contract_number, date_format(from_unixtime(contracts.date_started), \'%Y-%m-%d\') as date_started, date_format(from_unixtime(contracts.date_deadline), \'%Y-%m-%d\') as date_deadline, contracts.customer, contracts.сustomer_id, contracts.address, contracts.geodetic_survey,contracts.type_of_work, contracts.contractor, contracts.price, contracts.comment, contracts.status, users.name FROM contracts LEFT JOIN users on contracts.contractor = users.id ' + this._whereString(params.where) + this._limitString(params.limit) + this._offsetString(params.offset);
+    let sql = 'SELECT contracts.id, contracts.contract_number, date_format(from_unixtime(contracts.date_started), \'%Y-%m-%d\') as date_started, date_format(from_unixtime(contracts.date_deadline), \'%Y-%m-%d\') as date_deadline, contracts.customer, contracts.сustomer_id, contracts.address, contracts.geodetic_survey,contracts.type_of_work, contracts.contractor, contracts.price, contracts.comment, contracts.status, users.name FROM contracts LEFT JOIN users on contracts.contractor = users.id ' + this._whereString(params.where) + this._limitString(limit) + this._offsetString(offset);
     console.log(sql);
     return new Promise((resolve,reject) => {
         db.query(sql,(err,rows,field)=>{
