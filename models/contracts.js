@@ -99,7 +99,7 @@ module.exports = class Contracts extends Table{
 
 
 
-   getContracts(params){
+    getContracts(params){
     params.where = params.where ? params.where : '';
     let limit = params.where.limit ? params.where.limit : '';
     let offset = params.where.offset ? params.where.offset : '';
@@ -114,6 +114,20 @@ module.exports = class Contracts extends Table{
             resolve(rows);
         })
     })
+}
+
+getCount(params){
+    console.log("start getcount");
+    params.where = params.where ? params.where : '';
+    let sql = "SELECT count(id) as count FROM contracts " + this._whereString(params.where) + this._limitString(params.limit) + this._offsetString(params.offset);            
+    //super.query(sql);
+    return new Promise((resolve, reject)=>{
+        db.query(sql,(err,rows)=>{
+            if(err) return reject(err);
+            console.log(rows);
+            return resolve(rows);
+        })
+    })        
 }
 
 

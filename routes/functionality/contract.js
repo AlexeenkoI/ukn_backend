@@ -6,7 +6,8 @@ module.exports.GetContracts = async function(req,res,next){
     console.log(body)
     try{
         const data = await contract.getContracts(body);
-        res.json({success:true, data:data});
+        const count = await contract.getCount(body);        
+        res.json({success:true,count : count[0].count, data:data});
     }catch(e){
         res.json({success : false,msg : e})
     }            
@@ -18,7 +19,7 @@ module.exports.GetContract = async function(reg, res, next){
     body = {where : {id : reg.params.id }}; 
     const contract = new Contracts();    
     try{        
-        const data = await contract.getContracts(body)  
+        const data = await contract.getContracts(body)  ;        
         res.json({success:true, data:data})    
     }catch(e){
         res.json({success : false, msg : e})

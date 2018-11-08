@@ -89,4 +89,15 @@ module.exports = class Table{
             })
         })
     }
+
+    query(sql){       
+        console.log(sql);
+        return new Promise((resolve, reject)=>{
+            db.query(sql,(err,rows)=>{
+                if(err) return reject(err);
+                console.log(rows);
+                return resolve(rows);
+            })
+        })
+    }
 }

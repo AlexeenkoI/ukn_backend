@@ -1,10 +1,13 @@
 var Customers = require('../../models/customers');
 
 module.exports.GetCustomers = async function(reg, res, next){       
-    const cus = new Customers();
+    const cus = new Customers();    
     try{                        ;
-        result = await cus.getCustomers(reg.body);
-        res.json({success : true, data : result})
+        const result = await cus.getCustomers(reg.body);        
+        const count = await cus.getCount(reg.body);  
+        console.log(count);
+
+        res.json({success : true, count:count[0].count,data : result})
     }catch(e){       
         res.json({success : false,msg : e})
     }
@@ -16,7 +19,8 @@ module.exports.GetCustomer = async function(reg, res, next){
     const customer = new Customers();               
     try{
         const data = await customer.getCustomers(body);  
-        res.json({success:true, data:data})    
+          
+        res.json({success:true,  data:data})    
     }catch(e){
         res.json({success : false, msg : e})
     }
