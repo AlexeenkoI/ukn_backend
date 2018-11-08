@@ -27,7 +27,11 @@ content-type: application/json
 
 {
     "limit" : 10,
-    "userId": "3"
+    "userId": "3",
+    "where":{
+        "phone": "test",
+        "name":"2"
+    }
 }
 
 ###
@@ -50,7 +54,7 @@ content-type: application/json
 }
 ###
 
-DELETE  http://localhost:3002/api/customers/deletecustomer/17
+DELETE  http://localhost:3002/api/customers/deletecustomer/23
 content-type: application/json
 
 {

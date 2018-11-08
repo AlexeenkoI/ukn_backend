@@ -6,11 +6,6 @@ content-type: application/json
         "login": "komkim",
         "password": "pwd123"
     }
-        /*
-        "login": "test",
-        "password": "test"     
-    }
-       */
 }
 
 ###
@@ -18,7 +13,10 @@ post http://localhost:3002/api/users/getusers
 content-type: application/json
 
 {    "limit":10,
-    "userId": "3"    
+    "userId": "3",
+    "where":{
+        "name":"г"
+    }
 }
 
 ###
@@ -56,7 +54,7 @@ content-type: application/json
     }
 }
 ###
-delete http://localhost:3002/api/users/deleteuser/21
+delete http://localhost:3002/api/users/deleteuser/23
 content-type: application/json
 
 {

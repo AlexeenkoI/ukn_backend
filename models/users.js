@@ -39,10 +39,10 @@ module.exports = class User extends Table{
         console.log(params);
         let whereStr = '';
         if(params.hasOwnProperty('id')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `users.id = '${params.id}'` }
-        if(params.hasOwnProperty('login')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `users.login = '${params.login}'` }
+        if(params.hasOwnProperty('login')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `users.login like '%${params.login}%'` }
         if(params.hasOwnProperty('password')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `users.password = '${crypto.createHash('md5').update(params.password).digest('hex')}'` }
-        if(params.hasOwnProperty('name')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `users.name = '${params.name}'` }
-        if(params.hasOwnProperty('surename')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `users.surename = '${params.surename}'` }
+        if(params.hasOwnProperty('name')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `users.name like '%${params.name}%'` }
+        if(params.hasOwnProperty('surename')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `users.surename like '%${params.surename}%'` }
         if(params.hasOwnProperty('role')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `users.role = '${params.role}'` }
         if(params.hasOwnProperty('is_active')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `users.is_active = '${params.is_active}'` }
         return whereStr;
