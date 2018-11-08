@@ -19,16 +19,19 @@ post http://localhost:3002/api/contracts/getcontracts
 content-type: application/json
 
 {    
-    "limit" : 3,
+    "where" : {
+        "customer_id":0
+    },
     "userId": "3"
 }
 
+###
 post http://localhost:3002/api/contracts/getcontract/3
 content-type: application/json
 
 {    
     "userId": "3"
-}
+}   
 ###
 put http://localhost:3002/api/contracts/updatecontracts/3
 content-type: application/json
@@ -36,7 +39,7 @@ content-type: application/json
 {   
     "userId": "3",
     "data": {
-        "contract_number" : 6666
+        "contract_number" : 6665
     }
 }
 
@@ -49,13 +52,14 @@ content-type: application/json
     "data" : {
         "contract_number" : 45612,
         "customer" : "test",
-        "address":"test"
+        "address":"test",
+        "customer":3
     }
 }
 
 ###
 
-DELETE  http://localhost:3002/api/contracts/deletecontract/17
+DELETE  http://localhost:3002/api/contracts/deletecontract/30
 content-type: application/json
 
 {
