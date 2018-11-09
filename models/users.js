@@ -91,4 +91,18 @@ module.exports = class User extends Table{
             })
         })
     }
+
+    getCount(params){
+        console.log("start getcount");
+        params.where = params.where ? params.where : '';
+        let sql = "SELECT count(id) as count FROM users " + this._whereString(params.where) + this._limitString(params.limit) + this._offsetString(params.offset);            
+        //super.query(sql);
+        return new Promise((resolve, reject)=>{
+            db.query(sql,(err,rows)=>{
+                if(err) return reject(err);
+                console.log(rows);
+                return resolve(rows);
+            })
+        })        
+    }
 }

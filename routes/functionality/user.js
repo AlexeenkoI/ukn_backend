@@ -4,8 +4,9 @@ module.exports.GetUsers = async function(req,res,next){
     const user = new User();
     try{       
         //const roles = await user.getUsersRoles();
-        const users = await user.getUser(req.body);        
-        res.json({success : true,users : users, /*userRoles : roles*/});
+        const users = await user.getUser(req.body);  
+        const count = await user.getCount(req.body)      ;
+        res.json({success : true,count:count[0].count, users : users, /*userRoles : roles*/});
     }catch(e){    
         res.json({ success : false,msg : e});
     }
