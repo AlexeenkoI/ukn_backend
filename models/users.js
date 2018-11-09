@@ -45,6 +45,7 @@ module.exports = class User extends Table{
         if(params.hasOwnProperty('surename')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `users.surename like '%${params.surename}%'` }
         if(params.hasOwnProperty('role')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `users.role = '${params.role}'` }
         if(params.hasOwnProperty('is_active')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `users.is_active = '${params.is_active}'` }
+        if(params.hasOwnProperty('whereString') && params.whereString !==''){whereStr += (whereStr ? ' AND ' : 'WHERE ') + `CONCAT(users.name,' ',users.surename) LIKE '%${params.whereString}%'`}
         return whereStr;
     }
 
@@ -59,9 +60,11 @@ module.exports = class User extends Table{
     getUser(params){      
 
         params.where = params.where ? params.where : '';
+        let limit = params.where.limit ? params.where.limit : '';
+        let offset = params.where.offset ? params.where.offset : '';
         console.log(params);
         let sql = "SELECT users.id, users.name, users.surename, users.role, users.login, users.is_active, user_roles.role_name AS status_text FROM users LEFT JOIN user_roles ON users.role = user_roles.id " + 
-                this._whereString(params.where) + this._limitString(params.limit) + this._offsetString(params.offset);
+                this._whereString(params.where) + this._limitString(limit) + this._offsetString(offset);
         console.log(sql);
         return new Promise((resolve, reject)=>{
             db.query(sql,(err,rows,fields)=>{
@@ -95,7 +98,9 @@ module.exports = class User extends Table{
     getCount(params){
         console.log("start getcount");
         params.where = params.where ? params.where : '';
-        let sql = "SELECT count(id) as count FROM users " + this._whereString(params.where) + this._limitString(params.limit) + this._offsetString(params.offset);            
+        let limit = params.where.limit ? params.where.limit : '';
+        let offset = params.where.offset ? params.where.offset : '';
+        let sql = "SELECT count(id) as count FROM users " + this._whereString(params.where) + this._limitString(limit) + this._offsetString(offset);            
         //super.query(sql);
         return new Promise((resolve, reject)=>{
             db.query(sql,(err,rows)=>{
