@@ -25,6 +25,7 @@ module.exports = class Customers extends Table{
     }
 
     _whereString(params){
+        console.log(params);
         let whereStr = '';
         if(params.hasOwnProperty('id')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `id = '${params.id}'` }
         if(params.hasOwnProperty('name')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `name LIKE '%${params.name}%'` }
@@ -32,13 +33,17 @@ module.exports = class Customers extends Table{
         if(params.hasOwnProperty('secondname')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `secondname LIKE '%${params.secondname}%'` }
         if(params.hasOwnProperty('email')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `email LIKE '%${params.email}%'` }
         if(params.hasOwnProperty('phone')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `phone LIKE '%${params.phone}%'` }
+        if(params.hasOwnProperty('whereString') && params.whereString !==''){whereStr += (whereStr ? ' AND ' : 'WHERE ') + `CONCAT(name,' ',firstname,' ', secondname) LIKE '%${params.whereString}%'`}
         return whereStr;
     }
     
  
-    getCustomers(params){            
+    getCustomers(params){
         params.where = params.where ? params.where : '';
-        let sql = "SELECT * FROM customer " + this._whereString(params.where) + this._limitString(params.limit) + this._offsetString(params.offset);        
+        let limit = params.where.limit ? params.where.limit : '';
+        let offset = params.where.offset ? params.where.offset : '';
+
+        let sql = "SELECT * FROM customer " + this._whereString(params.where) + this._limitString(limit) + this._offsetString(offset);        
         console.log(sql);
         return new Promise((resolve, reject)=>{
             db.query(sql,(err,rows)=>{
@@ -51,7 +56,9 @@ module.exports = class Customers extends Table{
     getCount(params){
         console.log("start getcount");
         params.where = params.where ? params.where : '';
-        let sql = "SELECT count(id) as count FROM customer " + this._whereString(params.where) + this._limitString(params.limit) + this._offsetString(params.offset);            
+        let limit = params.where.limit ? params.where.limit : '';
+        let offset = params.where.offset ? params.where.offset : '';
+        let sql = "SELECT count(id) as count FROM customer " + this._whereString(params.where) + this._limitString(limit) + this._offsetString(offset);            
         //super.query(sql);
         return new Promise((resolve, reject)=>{
             db.query(sql,(err,rows)=>{

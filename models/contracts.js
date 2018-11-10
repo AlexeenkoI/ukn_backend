@@ -56,7 +56,7 @@ module.exports = class Contracts extends Table{
         additional options
         */
        console.log('where str');
-       console.log(params);
+       console.log(params.customer_id);
         if(params && params == 'undefined') params = {};
         var whereStr = '';
         if(params.hasOwnProperty('id') && params.id !==''){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `contracts.id = '${params.id}'` }
@@ -67,7 +67,7 @@ module.exports = class Contracts extends Table{
         if(params.hasOwnProperty('status') && params.status !==''){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `status = '${params.status}'` }
         if(params.hasOwnProperty('type_of_work') && params.type_of_work !==''){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `type_of_work = '${params.type_of_work}'` }
         if(params.hasOwnProperty('date_started') && params.date_started !==''){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `date_started >= '${params.date_started}'` }
-        if(params.hasOwnProperty('сustomer_id') && params.сustomer_id !==''){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `customer_id = '${params.сustomer_id}'` }
+        if(params.hasOwnProperty('customer_id') && params.customer_id  > 0){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `customer_id = '${params.customer_id}'` }
         if(params.hasOwnProperty('date_deadline') && params.date_deadline !==''){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `date_deadline <= '${params.date_deadline}'` }
         if(params.hasOwnProperty('whereString') && params.whereString !==''){whereStr += (whereStr ? ' AND ' : 'WHERE ') + `CONCAT(contract_number,' ',address,' ',contractor) LIKE '%${params.whereString}%'`}
         return whereStr;

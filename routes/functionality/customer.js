@@ -1,10 +1,11 @@
 var Customers = require('../../models/customers');
 
 module.exports.GetCustomers = async function(reg, res, next){       
-    const cus = new Customers();    
+    const cus = new Customers();
+    body = {where : {...reg.body.data}}; 
     try{                        ;
-        const result = await cus.getCustomers(reg.body);        
-        const count = await cus.getCount(reg.body);  
+        const result = await cus.getCustomers(body);        
+        const count = await cus.getCount(body);  
         console.log(count);
 
         res.json({success : true, count:count[0].count,data : result})
