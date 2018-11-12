@@ -7,6 +7,7 @@ var Contract = require('./functionality/contract');
 var StatusType = require('./functionality/status_type');
 var UserRole = require('./functionality/user_role');
 var WorkType = require('./functionality/work_type');
+var Performer = require('./functionality/performer');
 var multer  = require('multer')
 
 var upload = multer({ dest: 'uploads/' })
@@ -56,6 +57,13 @@ router.post('/worktypes/getworktype/:id', WorkType.GetWorkType);
 router.put('/worktypes/updateworktype/:id', WorkType.UpdateWorkType);
 router.put('/worktypes/createworktype', WorkType.CreateWorkType);
 router.delete('/worktypes/deleteworktype/:id', WorkType.DeleteWorkType);
+
+router.use('/performers', Authorizer.Checktoken);
+router.post('/performers/getperformers',Performer.GetPerformers);
+router.post('/performers/getperformer/:id', Performer.GetPerformers);
+router.put('/performers/updateperformer/:id', Performer.UpdatePerformer);
+router.put('/performers/createperformer', Performer.CreatePerformer);
+router.delete('/performers/deleteperformer/:id', Performer.DeletePerformer);
 
 router.post('/test', Authorizer.Test);
 
