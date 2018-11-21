@@ -1,22 +1,12 @@
-var Contracts = require('../../models/contracts');
-const Sequelize = require('sequelize');
-const sequelize = require('../../dbconn');
+var Contracts = require('../../models/contracts_new');
 
 module.exports.GetContracts = async function(req,res,next){   
-    //const contract = new Contracts();    
-    //const sequelize = new Sequelize();
-    const contract = new Contracts(sequelize, Sequelize);
-    
-    //contract : Contracts.init(sequelize, Sequelize);
-
+    const contract = new Contracts();    
     console.log(req.body.data);
     try{
-        //console.log("start get contract");
-        const data = await contract.GetContracts();   
-        //const data = await contract.getContracts(req.body.data);
-        //const count = await contract.getCount(req.body.data);        
-        //res.json({success:true,count : count[0].count, data:data});
-        res.json({success:true,data:data});
+        const data = await contract.getContracts(req.body.data);
+        const count = await contract.getCount(req.body.data);        
+        res.json({success:true,count : count[0].count, data:data});
     }catch(e){
         res.json({success : false,msg : e})
     }            

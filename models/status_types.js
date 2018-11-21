@@ -1,3 +1,4 @@
+/*
 var db = require('../dbconn');
 var Table = require('./table');
 
@@ -36,6 +37,51 @@ module.exports = class StatusType extends Table{
                 if(err) return reject(err);
                 return resolve(rows);
             })
+        })
+    }
+}
+*/
+
+//var sequelize = require('../dbconn');
+const Sequelize = require('sequelize');
+
+/*
+module.exports.StatusType = sequelize.define('status_types', {
+    id: {
+        type: Sequelize.INTEGER,
+        primaryKey : true,
+        autoIncrement: true,
+    },
+    type : Sequelize.STRING
+},{
+    timestamps:false
+});
+*/
+
+
+module.exports = class StatusType extends Sequelize.Model{
+
+    static init(sequelize, Sequelize){
+        console.log(sequelize);
+        return super.init(
+        {
+            id: {
+                type: Sequelize.INTEGER,
+                primaryKey : true,
+                autoIncrement: true,
+            },
+            type : Sequelize.STRING,
+            createdAt: Sequelize.DATE,
+            updatedAt: Sequelize.DATE,
+        },{
+            timestamps:false,
+            sequelize
+        });
+    }
+
+    GetStatusType(params){
+        return this.findAndCountAll({
+            attrimutes: ['id']
         })
     }
 }

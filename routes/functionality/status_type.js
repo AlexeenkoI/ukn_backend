@@ -1,9 +1,13 @@
 var StatusType = require('../../models/status_types');
+const Sequelize = require('sequelize');
+const sequelize = require('../../dbconn');
 
 module.exports.GetStatusTypes = async function(req,res,next){   
-    const statustype = new StatusType();
+    //const statustype = new StatusType();
+    const statustype = new StatusType(sequelize, Sequelize);
     try{
-        const data = await statustype.getStatusTypes(req.body);
+        //const data = await statustype.GetStatusTypes(req.body);
+        const data = await statustype.GetStatusType(sequelize, Sequelize);
         res.json({success:true, data:data});
     }catch(e){
         res.json({success : false,msg : e})

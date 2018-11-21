@@ -1,3 +1,4 @@
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -30,15 +31,27 @@ app.use(jsonParser.json());
 app.use('/api', routes);
 
 //start socket connections
-const connections = [];
+const connections = {};
 io.on('connection', function (socket) {
-  connections.push(socket.id);
+  console.log();
+  //console.log(socket);
+  console.log();
+  
+  //connections[socket.client.id] = socket.id;
   console.log("Connected to Socket!!"+ socket.id) ;
+  //console.log(socket.handshake.headers.cookie) ;
+  socket.on('auth', data => {
+    console.log("start auth");
+    console.log(data);
+    connections[data] = socket.id;
+    console.log (connections);
+  })
   socket.on('disconnect', function(socket){
     console.log('Disconnected - '+ socket.id);
     
     //ToDo delete connections from poll array
   });
+  /*
   setTimeout(()=>{
     io.emit('updateContracts',{
     data:[
@@ -52,6 +65,7 @@ io.on('connection', function (socket) {
     }],
   }),8000})
   console.log(connections);
+  */
 })
 
 

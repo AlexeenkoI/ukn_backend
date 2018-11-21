@@ -15,25 +15,25 @@ content-type: application/json
 
 {}
 ###
-post http://localhost:3002/api/contracts/getcontracts
+post http://localhost:3002/api/contracts_new/getcontracts
 content-type: application/json
 
 {    
     "data" :{        
-        "user_id" : 3       
+       "user_id":3
     },
     "userId": "3"
 }
 
 ###
-post http://localhost:3002/api/contracts/getcontract/3
+post http://localhost:3002/api/contracts_new/getcontract/3
 content-type: application/json
 
 {    
     "userId": "3"
 }   
 ###
-put http://localhost:3002/api/contracts/updatecontracts/3
+put http://localhost:3002/api/contracts_new/updatecontracts/3
 content-type: application/json
 
 {   
@@ -44,7 +44,7 @@ content-type: application/json
 }
 
 ###
-put http://localhost:3002/api/contracts/createcontract
+put http://localhost:3002/api/contracts_new/createcontract
 content-type: application/json
 
 {
@@ -58,7 +58,7 @@ content-type: application/json
 
 ###
 
-DELETE  http://localhost:3002/api/contracts/deletecontract/30
+DELETE  http://localhost:3002/api/contracts_new/deletecontract/30
 content-type: application/json
 
 {
