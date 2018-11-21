@@ -31,4 +31,15 @@ const sequelize = new Sequelize('ukn', 'igor', 'deDnmr1x', {
     //timestamps: false
   })
 
+  /**
+   * Проверка успешного коннекта к базе.
+   */
+  sequelize.authenticate()
+    .then(() => {
+      console.log('Connection has been established successfully.');
+    })
+    .catch(err => {
+      console.error('Unable to connect to the database:', err);
+    });
+
 module.exports = sequelize

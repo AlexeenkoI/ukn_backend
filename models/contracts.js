@@ -111,6 +111,7 @@ const Sequelize = require('sequelize');
 const Customer = require('./customers');
 const Work_type = require('./work_types');
 const Status_type = require('./status_types');
+const User = require('./users');
 //const User = require('./users');
 
 
@@ -165,24 +166,27 @@ module.exports = class Contracts extends Sequelize.Model{
         this.myAssosiation = this.belongsToMany(User, {through:Performes, foreignKey : "contract_id"});
     }
 
-    GetContracts(params){
-        console.log("start getcontract");
-        return this.findAndCountAll({
-            //include:[Customer]
-            include : [{
-                model :  Work_type         
-                //where : { id: 2},
-                //required : truefg
-            },{
-                model : Status_type
-            },{
-                model : Customer
-            }
-            ,{
-                model:User,       
-                where : {login : "komkim"}            
-            }
-        ]})
+
+    //С вложенностями как здесь - не работает, видимо нужно как-то по другому
+    static GetContracts(params){
+      console.log("start getcontract");
+      return this.findAndCountAll({
+          //include:[Customer]
+          //include : [{
+          //  model :  Work_type         
+          //      //where : { id: 2},
+          //      //required : truefg
+          //  },{
+          //      model : Status_type
+          //  },{
+          //      model : Customer
+          //  }
+          //  ,{
+          //      model:User,       
+          //      where : {login : "komkim"}            
+          //  }
+          //]
+      })
     }
 }  
 
