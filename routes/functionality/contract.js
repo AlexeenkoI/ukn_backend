@@ -1,6 +1,7 @@
 var Contracts = require('../../models/contracts');
 const Sequelize = require('sequelize');
 const sequelize = require('../../dbconn');
+const model = require('../../models/init');
 
 module.exports.GetContracts = async function(req,res,next){   
     
@@ -9,12 +10,13 @@ module.exports.GetContracts = async function(req,res,next){
      * НЕ НАДО !!!
      */
     //const contract = new Contracts(sequelize, Sequelize);
-    let contract = Contracts.init(sequelize, Sequelize);
+    //contract.init(sequelize, Sequelize);
+    //let contract = Contracts.init(sequelize, Sequelize);
     //contract : Contracts.init(sequelize, Sequelize);
     console.log(req.body.data);
     try{
         console.log("in try");
-        const data = await contract.GetContracts();
+        const data = await model.Contract.GetContracts();
         console.log(data);   
         //const data = await contract.getContracts(req.body.data);
         //const count = await contract.getCount(req.body.data);        

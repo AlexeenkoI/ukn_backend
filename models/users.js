@@ -1,4 +1,4 @@
-
+/*
 
 var db = require('../dbconn');
 var crypto = require('crypto');
@@ -114,28 +114,43 @@ module.exports = class User extends Table{
     }
 }
 
-
-/*
-var sequelize = require('../dbconn');
-const Sequelize = require('sequelize');
-
-module.exports.User = sequelize.define('users', {
-    id: {
-      type: Sequelize.INTEGER,
-      primaryKey : true,
-      autoIncrement: true,
-    },
-    name:Sequelize.STRING,
-    surename: Sequelize.STRING,
-    login: Sequelize.STRING,    
-    role: Sequelize.INTEGER,
-    is_active:Sequelize.STRING
-  },{
-    timestamps:false
-});
-
-User.belongsTo(Role, {foreignKey : 'role'});
-User.hasOne(Token, {foreignKey: 'user_id'});
-//User.hasMany(Performes, {foreignKey: 'user_id'});
-User.belongsToMany(Contract, {through : Performes, foreignKey : "user_id"});
 */
+
+
+
+const Sequelize = require('sequelize');
+//const model = require('./init');
+
+module.exports = class User extends Sequelize.Model{
+    static init(sequelize, Sequelize){
+        console.log("start user init");
+        return super.init(
+            {
+                id: {
+                    type: Sequelize.INTEGER,
+                    primaryKey : true,
+                    autoIncrement: true,
+                },
+                name:Sequelize.STRING,
+                surename: Sequelize.STRING,
+                login: Sequelize.STRING,    
+                role: Sequelize.INTEGER,
+                is_active:Sequelize.STRING
+            },{
+                timestamps:false,
+                tableName : 'users',
+                sequelize
+            }
+        );
+    }
+
+    /*
+    static associate(){
+        this.myAssosiation = this.belongsTo(model.Role, {foreignKey : 'role'});
+        this.myAssosiation = this.hasOne(model.Token, {foreignKey: 'user_id'});
+        this.myAssosiation = this.belongsToMany(model.Contract, {through : Performes, foreignKey : "user_id"});
+    }
+    */
+}
+
+

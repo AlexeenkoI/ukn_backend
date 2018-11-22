@@ -41,6 +41,7 @@ module.exports = class WorkType extends Table{
 }
 */
 
+/*
 var sequelize = require('../dbconn');
 const Sequelize = require('sequelize');
 
@@ -54,3 +55,27 @@ module.exports.WorkType = sequelize.define('work_types',{
 },{
     timestamps:false
 })
+*/
+
+const Sequelize = require('sequelize');
+
+module.exports = class Work extends Sequelize.Model{
+
+    static init(sequelize, Sequelize){
+        console.log("start init work");
+        return super.init(
+            {
+                id: {
+                    type: Sequelize.INTEGER,
+                    primaryKey : true,
+                    autoIncrement: true,
+                },
+                work_type : Sequelize.STRING
+            },{
+                timestamps:false, 
+                tableName : 'work_types',
+                sequelize
+            }
+        );
+    }
+}

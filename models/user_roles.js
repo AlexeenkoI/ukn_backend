@@ -1,3 +1,4 @@
+/*
 var db = require('../dbconn');
 var Table = require('./table');
 
@@ -37,5 +38,28 @@ module.exports = class RoleName extends Table{
                 return resolve(rows);
             })
         })
+    }
+}
+*/
+
+const Sequelize = require('sequelize');
+
+module.exports = class Role extends Sequelize.Model{
+    static init(sequelize, Sequelize){
+        console.log("start init role");
+        return super.init(
+            {
+                id: {
+                    type: Sequelize.INTEGER,
+                    primaryKey : true,
+                    autoIncrement: true,
+                  },
+                role_name:Sequelize.STRING
+            },{
+                timestamps:false,
+                tableName : 'user_roles',
+                sequelize            
+            }
+        );
     }
 }

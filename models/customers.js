@@ -1,4 +1,5 @@
-var db = require('../dbconn');
+
+/*var db = require('../dbconn');
 var Table = require('./table');
 
 module.exports = class Customers extends Table{
@@ -68,4 +69,54 @@ module.exports = class Customers extends Table{
         })        
     }
 
+}
+*/
+
+/*
+
+var sequelize = require('../dbconn');
+
+module.exports.Customers = sequelize.define('customer', {
+    id: {
+        type: Sequelize.INTEGER,
+        primaryKey : true,
+        autoIncrement: true,
+      },
+    ctime : Sequelize.DATE,
+    name: Sequelize.STRING,
+    firstname : Sequelize.STRING,
+    secondname : Sequelize.STRING,
+    email : Sequelize.STRING,
+    phone : Sequelize.STRING
+},{
+    timestamps:false
+});
+*/
+
+const Sequelize = require('sequelize');
+
+module.exports = class Customer extends Sequelize.Model{
+    static init(sequelize, Sequelize){        
+        console.log("start init customer");
+        return super.init(
+            {
+                id: {
+                    type: Sequelize.INTEGER,
+                    primaryKey : true,
+                    autoIncrement: true,
+                  },
+                ctime : Sequelize.DATE,
+                name: Sequelize.STRING,
+                firstname : Sequelize.STRING,
+                secondname : Sequelize.STRING,
+                email : Sequelize.STRING,
+                phone : Sequelize.STRING
+            },
+            {
+                timestamps:false,
+                tableName : 'customers',
+                sequelize  
+            }
+        );
+    }    
 }

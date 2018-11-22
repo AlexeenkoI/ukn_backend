@@ -107,12 +107,15 @@ module.exports = class Contracts extends Table{
 */
 
 //const sequelize = require('../dbconn');
+
 const Sequelize = require('sequelize');
+
+/*
 const Customer = require('./customers');
 const Work_type = require('./work_types');
 const Status_type = require('./status_types');
 const User = require('./users');
-//const User = require('./users');
+*/
 
 
 
@@ -144,6 +147,7 @@ module.exports = class Contracts extends Sequelize.Model{
                 price:Sequelize.DECIMAL,
                 comment:Sequelize.TEXT,
                 status:Sequelize.INTEGER
+                
 
                 
             },        
@@ -154,40 +158,48 @@ module.exports = class Contracts extends Sequelize.Model{
                 tableName : 'contracts',
                 sequelize   
             }
+
        
         );
     }
 
     static associate(models){
-        this.myAssosiation = this.belongsTo(models.Customer, {foreignKey : 'customer_id'});
-        this.myAssosiation = this.belongsTo(models.Work_type, {foreignKey : 'type_of_work'});
-        this.myAssosiation = this.belongsTo(models.Status_type, {foreignKey : 'status'});
+        models.Contract.belongsTo(models.Customer, {foreignKey : 'customer_id'});
+        models.Contract.belongsTo(models.Work, {foreignKey : 'type_of_work'});
+        models.Contract.belongsTo(models.StatusType, {foreignKey : 'status'});
     //Contract.hasMany(Performes, {foreignKey : 'contract_id'});
-        this.myAssosiation = this.belongsToMany(User, {through:Performes, foreignKey : "contract_id"});
+        models.Contract.belongsToMany(models.User, {through:models.Performes, foreignKey : "contract_id"});
     }
 
-
-    //С вложенностями как здесь - не работает, видимо нужно как-то по другому
+  
     static GetContracts(params){
-      console.log("start getcontract");
-      return this.findAndCountAll({
-          //include:[Customer]
-          //include : [{
-          //  model :  Work_type         
-          //      //where : { id: 2},
-          //      //required : truefg
-          //  },{
-          //      model : Status_type
-          //  },{
-          //      model : Customer
-          //  }
-          //  ,{
-          //      model:User,       
-          //      where : {login : "komkim"}            
-          //  }
-          //]
-      })
+        console.log("start getcontract");
+        return this.findAndCountAll({
+
+            //where : {id : 3}
+
+            
+
+            //include:[Status_type] 
+            /*   
+            include : [{
+                model :  Work_type         
+                //where : { id: 2},
+                //required : truefg
+            },{
+                model : Status_type
+            },{
+                model : Customer
+            }
+            ,{
+                model:User,       
+                where : {login : "komkim"}            
+            }
+        ]
+        */
+    })
     }
+
 }  
 
 

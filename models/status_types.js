@@ -75,13 +75,14 @@ module.exports = class StatusType extends Sequelize.Model{
             updatedAt: Sequelize.DATE,
         },{
             timestamps:false,
+            tableName : 'status_types',
             sequelize
         });
     }
 
-    GetStatusType(params){
+   static GetStatusType(params){
         return this.findAndCountAll({
-            attrimutes: ['id']
+            //attrimutes: ['id']
         })
     }
 }

@@ -1,3 +1,4 @@
+/*
 var db = require('../dbconn');
 var Table = require('./table');
 
@@ -59,5 +60,34 @@ module.exports = class Performers extends Table{
                 return resolve(rows);
             })
         })        
+    }
+}
+
+*/
+
+const Sequelize = require('sequelize');
+
+
+module.exports = class Perform extends Sequelize.Model{
+    static init (sequelize, Sequelize){
+        return super.init(
+            {
+                id: {
+                    type: Sequelize.INTEGER,
+                    primaryKey : true,
+                    autoIncrement: true,
+                },
+                ctime : Sequelize.DATE,
+                contract_id : Sequelize.INTEGER,
+                user_id : Sequelize.INTEGER
+            },
+            {
+                timestamps:false,
+                tableName : 'performes',
+                sequelize
+            }   
+            
+
+        );
     }
 }

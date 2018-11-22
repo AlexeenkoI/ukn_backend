@@ -71,7 +71,7 @@ module.exports = class Contracts extends Table{
         if(params.hasOwnProperty('date_deadline') && params.date_deadline !==''){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `date_deadline <= '${params.date_deadline}'` }
         if(params.hasOwnProperty('whereString') && params.whereString !==''){whereStr += (whereStr ? ' AND ' : 'WHERE ') + `CONCAT(contract_number,' ',address,' ',contractor) LIKE '%${params.whereString}%'`}
         if(params.hasOwnProperty('performers_id') && params.performers_id !==''){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `performers_id = '${params.performers_id}'` }
-        if(params.hasOwnProperty('user_id')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + params.user_id.reduce(function(str, value){str + ' ' + value + ' AND '}, whereStr) }        
+        if(params.hasOwnProperty('user_id')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + params.user_id.reduce(function(str, value){' AND ' + str + ' ' + value}, whereStr) }        
         //if(params.hasOwnProperty('name')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `users.name like '%${params.name}%'` }
         //if(params.hasOwnProperty('surename')){ whereStr += (whereStr ? ' AND ' : 'WHERE ') + `users.surename like '%${params.surename}%'` }
 

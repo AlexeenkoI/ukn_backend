@@ -20,7 +20,7 @@ content-type: application/json
 
 {    
     "data" :{        
-        "user_id" : 3       
+       "user_id":3
     },
     "userId": "3"
 }
