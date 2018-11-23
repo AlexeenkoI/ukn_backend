@@ -90,4 +90,9 @@ module.exports = class Perform extends Sequelize.Model{
 
         );
     }
+
+    static associate(models){
+        models.Performer.belongsTo(models.User, {foreignKey :  'user_id'});
+
+    }
 }

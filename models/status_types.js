@@ -61,8 +61,7 @@ module.exports.StatusType = sequelize.define('status_types', {
 
 module.exports = class StatusType extends Sequelize.Model{
 
-    static init(sequelize, Sequelize){
-        console.log(sequelize);
+    static init(sequelize, Sequelize){        
         return super.init(
         {
             id: {
@@ -71,18 +70,12 @@ module.exports = class StatusType extends Sequelize.Model{
                 autoIncrement: true,
             },
             type : Sequelize.STRING,
-            createdAt: Sequelize.DATE,
-            updatedAt: Sequelize.DATE,
+            //createdAt: Sequelize.DATE,
+            //updatedAt: Sequelize.DATE,
         },{
             timestamps:false,
             tableName : 'status_types',
             sequelize
         });
-    }
-
-   static GetStatusType(params){
-        return this.findAndCountAll({
-            //attrimutes: ['id']
-        })
-    }
+    }   
 }

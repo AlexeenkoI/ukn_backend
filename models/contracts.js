@@ -109,7 +109,7 @@ module.exports = class Contracts extends Table{
 //const sequelize = require('../dbconn');
 
 const Sequelize = require('sequelize');
-
+//const models = require('./init');
 /*
 const Customer = require('./customers');
 const Work_type = require('./work_types');
@@ -124,8 +124,7 @@ module.exports = class Contracts extends Sequelize.Model{
 
     static init(sequelize, Sequelize){
 
-        //const sequelize = new Sequelize();
-        console.log("start init contract");
+        //const sequelize = new Sequelize();        
         return super.init(
             {
                 
@@ -153,8 +152,8 @@ module.exports = class Contracts extends Sequelize.Model{
             },        
             {
                 timestamps:false,
-                //underscored: false,
-                //freezeTableName: false,
+                underscored: false,
+                freezeTableName: false,
                 tableName : 'contracts',
                 sequelize   
             }
@@ -168,12 +167,12 @@ module.exports = class Contracts extends Sequelize.Model{
         models.Contract.belongsTo(models.Work, {foreignKey : 'type_of_work'});
         models.Contract.belongsTo(models.StatusType, {foreignKey : 'status'});
     //Contract.hasMany(Performes, {foreignKey : 'contract_id'});
-        models.Contract.belongsToMany(models.User, {through:models.Performes, foreignKey : "contract_id"});
+        models.Contract.belongsToMany(models.User, {through:models.Performer, foreignKey : "contract_id"});
     }
 
   
-    static GetContracts(params){
-        console.log("start getcontract");
+    static GetContracts(models, params){   
+        console.log(params)     ;
         return this.findAndCountAll({
 
             //where : {id : 3}
@@ -181,22 +180,23 @@ module.exports = class Contracts extends Sequelize.Model{
             
 
             //include:[Status_type] 
-            /*   
+            where : params.contract,
             include : [{
-                model :  Work_type         
-                //where : { id: 2},
-                //required : truefg
+                model :  models.Work,                 
+                required : true,
+               // where : params.work_type
             },{
-                model : Status_type
+                model : models.StatusType
             },{
-                model : Customer
+                model : models.Customer
             }
             ,{
-                model:User,       
-                where : {login : "komkim"}            
+                model:models.User,       
+                //where : {login : "komkim"}    
+                required : true        
             }
         ]
-        */
+      
     })
     }
 

@@ -122,8 +122,7 @@ const Sequelize = require('sequelize');
 //const model = require('./init');
 
 module.exports = class User extends Sequelize.Model{
-    static init(sequelize, Sequelize){
-        console.log("start user init");
+    static init(sequelize, Sequelize){        
         return super.init(
             {
                 id: {
@@ -144,13 +143,13 @@ module.exports = class User extends Sequelize.Model{
         );
     }
 
-    /*
-    static associate(){
-        this.myAssosiation = this.belongsTo(model.Role, {foreignKey : 'role'});
-        this.myAssosiation = this.hasOne(model.Token, {foreignKey: 'user_id'});
-        this.myAssosiation = this.belongsToMany(model.Contract, {through : Performes, foreignKey : "user_id"});
+   
+    static associate(model){
+        model.User.belongsTo(model.Role, {foreignKey : 'role'});
+        model.User.hasOne(model.Token, {foreignKey: 'user_id'});
+        model.User.belongsToMany(model.Contract, {through : model.Performer, foreignKey : "user_id"});
     }
-    */
+    
 }
 
 

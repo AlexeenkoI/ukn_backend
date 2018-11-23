@@ -61,8 +61,7 @@ const Sequelize = require('sequelize');
 
 module.exports = class Work extends Sequelize.Model{
 
-    static init(sequelize, Sequelize){
-        console.log("start init work");
+    static init(sequelize, Sequelize){        
         return super.init(
             {
                 id: {

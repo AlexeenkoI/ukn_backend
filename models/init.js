@@ -28,7 +28,10 @@ const models = {
 // ie create relationships in the ORM
 Object.values(models)
   .filter(model => typeof model.associate === "function")
-  .forEach(model => model.associate(models));
+  .forEach((model) => {
+      console.log(model);
+      model.associate(models)
+  });
 
 const db = {
   ...models,

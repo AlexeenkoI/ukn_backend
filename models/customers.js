@@ -96,8 +96,7 @@ module.exports.Customers = sequelize.define('customer', {
 const Sequelize = require('sequelize');
 
 module.exports = class Customer extends Sequelize.Model{
-    static init(sequelize, Sequelize){        
-        console.log("start init customer");
+    static init(sequelize, Sequelize){                
         return super.init(
             {
                 id: {

@@ -45,8 +45,7 @@ module.exports = class RoleName extends Table{
 const Sequelize = require('sequelize');
 
 module.exports = class Role extends Sequelize.Model{
-    static init(sequelize, Sequelize){
-        console.log("start init role");
+    static init(sequelize, Sequelize){        
         return super.init(
             {
                 id: {

@@ -1,8 +1,7 @@
 const Sequelize = require('sequelize');
 
 module.exports = class Token extends Sequelize.Model{
-    static init(sequelize, Sequelize){
-        console.log("start token init");
+    static init(sequelize, Sequelize){        
         return super.init(
             {
                 id: {

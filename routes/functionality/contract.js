@@ -13,11 +13,12 @@ module.exports.GetContracts = async function(req,res,next){
     //contract.init(sequelize, Sequelize);
     //let contract = Contracts.init(sequelize, Sequelize);
     //contract : Contracts.init(sequelize, Sequelize);
-    console.log(req.body.data);
+    //console.log(req.body.data);
     try{
         console.log("in try");
-        const data = await model.Contract.GetContracts();
-        console.log(data);   
+        console.log(req.body.data);
+        const data = await model.Contract.GetContracts(model, req.body.data);
+        //console.log(data);   
         //const data = await contract.getContracts(req.body.data);
         //const count = await contract.getCount(req.body.data);        
         //res.json({success:true,count : count[0].count, data:data});
