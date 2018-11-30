@@ -174,32 +174,47 @@ module.exports = class Contracts extends Sequelize.Model{
     static GetContracts(models, params){   
         console.log(params)     ;
         return this.findAndCountAll({
+        //    return this.findAll({
 
             //where : {id : 3}
 
             
 
             //include:[Status_type] 
-            where : params.contract,
+            where : params,
+            
+            distinct : 'id'          ,
             include : [{
+                
                 model :  models.Work,                 
                 required : true,
+                as : 'type_of_work',
+                where : params.type_of_work
                // where : params.work_type
-            },{
+            }
+            ,
+            /*{
                 model : models.StatusType
-            },{
+            },{*/
+            {
                 model : models.Customer
             }
             ,{
                 model:models.User,       
                 //where : {login : "komkim"}    
-                required : true        
+                required : false       
             }
         ]
       
     })
     }
 
+    static Count(params){
+        return this.findOne({
+            where : params,
+            attributes: [[Sequelize.fn('COUNT', Sequelize.col('id')), 'count']]
+        })        
+    }
 }  
 
 

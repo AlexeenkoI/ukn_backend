@@ -19,12 +19,9 @@ post http://localhost:3002/api/contracts/getcontracts
 content-type: application/json
 
 {    
-    "data" :{  
-        "contract" : {
-            "status" : 2
-        },       
-       "work_type" : {
-           "id": 1
+    "data" :{          
+            "status" : 2,
+           "type_of_work": 2
        }
     },
     "userId": "3"

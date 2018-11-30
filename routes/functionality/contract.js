@@ -16,13 +16,14 @@ module.exports.GetContracts = async function(req,res,next){
     //console.log(req.body.data);
     try{
         console.log("in try");
-        console.log(req.body.data);
+        //console.log(req.body.data);
+        //const count = await model.Contract.Count(req.body.data);        
         const data = await model.Contract.GetContracts(model, req.body.data);
         //console.log(data);   
         //const data = await contract.getContracts(req.body.data);
         //const count = await contract.getCount(req.body.data);        
         //res.json({success:true,count : count[0].count, data:data});
-        res.json({success:true,data:data});
+        res.json({success:true,count:data.count, data:data.rows});
     }catch(e){
         console.log('in catch');
         console.log(e);
